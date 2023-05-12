@@ -1,20 +1,16 @@
 from pydantic import BaseModel
 
-
 class PetBase(BaseModel):
     name: str
 
-
 class PetCreate(PetBase):
     owner_id: int | None = None
-
 
 class Pet(PetBase):
     id: int
 
     class Config:
         orm_mode = True
-
 
 class PetUpdate(PetBase):
     id: int | None = None
@@ -24,14 +20,11 @@ class PetUpdate(PetBase):
     class Config:
         orm_mode = True
 
-
 class UserBase(BaseModel):
     email: str | None = None
 
-
 class UserCreate(UserBase):
     password: str
-
 
 class User(UserBase):
     id: int
@@ -41,13 +34,11 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
-
 class UserInDB(User):
     hashed_password: str
 
     class Config:
         orm_mode = True
-
 
 class UserUpdate(UserBase):
     id: int | None = None
@@ -57,11 +48,9 @@ class UserUpdate(UserBase):
     class Config:
         orm_mode = True
 
-
 class Token(BaseModel):
     access_token: str
     token_type: str
-
 
 class TokenData(BaseModel):
     username: str | None = None

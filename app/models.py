@@ -1,8 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
 from .database import Base
-
 
 class User(Base):
     __tablename__ = "users"
@@ -14,7 +12,6 @@ class User(Base):
 
     pets = relationship("Pet", back_populates="owner")
 
-
 class Pet(Base):
     __tablename__ = "pets"
     id = Column(Integer, primary_key=True, index=True)
@@ -22,4 +19,3 @@ class Pet(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="pets")
-

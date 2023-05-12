@@ -1,19 +1,15 @@
 from datetime import timedelta
 from typing import Annotated
-
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-
 from . import crud, models, schemas, auth
 from .database import SessionLocal, engine
-
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
 
 # Dependency
 def get_db():
@@ -23,14 +19,12 @@ def get_db():
     finally:
         db.close()
 
-
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_user(db=db, user=user)
-
 
 @app.put("/users/", response_model=schemas.User)
 def update_user(user: schemas.UserUpdate, token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
@@ -53,7 +47,6 @@ def update_user(user: schemas.UserUpdate, token: Annotated[str, Depends(auth.oau
     user.id = current_user.id
     return crud.update_user(db=db, db_user=current_user, user=user)
 
-
 @app.post("/pets/", response_model=schemas.Pet)
 def create_pet(pet: schemas.PetCreate, token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
@@ -74,7 +67,6 @@ def create_pet(pet: schemas.PetCreate, token: Annotated[str, Depends(auth.oauth2
         raise credentials_exception
     pet.owner_id = current_user.id
     return crud.create_pet(db=db, pet=pet)
-
 
 @app.put("/pets/", response_model=schemas.Pet)
 def update_pet(pet: schemas.PetUpdate, token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
@@ -100,7 +92,6 @@ def update_pet(pet: schemas.PetUpdate, token: Annotated[str, Depends(auth.oauth2
         else:
             raise HTTPException(status_code=400, detail="Pet not found")
 
-
 @app.post("/token", response_model=schemas.Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)):
@@ -116,7 +107,6 @@ async def login_for_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
 
 @app.get("/users/me/", response_model=schemas.User)
 async def read_users_me(token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
