@@ -43,3 +43,8 @@ def get_pets(db: Session, skip: int = 0, limit: int = 100):
 
 def get_pet_by_id(db: Session, pet_id: int):
     return db.query(models.Pet).filter(models.Pet.id == pet_id).first()
+
+def delete_pet(db: Session, pet_id: int):
+    db_pet = db.query(models.Pet).filter(models.Pet.id == pet_id).first()
+    db.delete(db_pet)
+    db.commit()

@@ -1,5 +1,12 @@
 from pydantic import BaseModel
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: str | None = None
+
 class PetBase(BaseModel):
     name: str
 
@@ -37,9 +44,6 @@ class User(UserBase):
 class UserInDB(User):
     hashed_password: str
 
-    class Config:
-        orm_mode = True
-
 class UserUpdate(UserBase):
     id: int | None = None
     is_active: bool | None = None
@@ -48,9 +52,3 @@ class UserUpdate(UserBase):
     class Config:
         orm_mode = True
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-class TokenData(BaseModel):
-    username: str | None = None

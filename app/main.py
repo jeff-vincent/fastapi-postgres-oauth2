@@ -127,3 +127,27 @@ async def read_users_me(token: Annotated[str, Depends(auth.oauth2_scheme)], db: 
     if current_user is None:
         raise credentials_exception
     return current_user
+
+@app.delete("/pets/", status_code=204)
+async def delete_pet(pet: schemas.Pet, token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, auth.SECRET_KEY, algorithms=[auth.ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = schemas.TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    current_user = crud.get_user_by_email(db, email=token_data.username)
+    if current_user is None:
+        raise credentials_exception
+    for item in current_user.pets:
+        if pet.id == item.__dict__['id']:
+            return crud.delete_pet(db=db, pet_id=pet.id)
+        else:
+            raise HTTPException(status_code=400, detail="Pet not found")
