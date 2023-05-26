@@ -12,10 +12,32 @@ const Terminal = () => {
     event.preventDefault();
 
     try {
-      // Execute command logic here...
-    } catch (error) {
-      // Handle error...
-    }
+        const formData = new FormData();
+        formData.append('cmd', inputValue);
+        formData.append('os', 'python:latest')
+        
+        const response = await fetch('http://localhost:8081/run', {
+          method: 'POST',
+          body: formData,  // Pass the formData object directly as the body
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        });
+      
+        if (response.ok) {
+          const data = await response.json();
+          console.log('CMD output:', data);
+          // Handle success or navigate to a different page
+          setOutput(data);
+        } else {
+          console.error('Error running CMD:', response.status);
+          // Handle error
+        }
+      } catch (error) {
+        console.error('Error running CMD:', error);
+        // Handle error
+      }
+      
 
     setInputValue('');
   };

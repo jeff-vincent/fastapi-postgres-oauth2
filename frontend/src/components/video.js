@@ -2,7 +2,7 @@ import React from 'react';
 import './components.css'; // Assuming you have a CSS file for video player styling
 
 const VideoPlayer = () => {
-  const videoUrl = 'https://www.youtube.com/watch?v=RqTEHSBrYFw'; // Replace with your video URL
+  const videoUrl = 'https://pixabay.com/videos/clouds-cloudscape-wind-nature-158384/'; // Replace with your video URL
 
   return (
     <div className="video-player">
