@@ -52,15 +52,15 @@ const SignUpLogin = () => {
   };
 
   return (
-    <div>
-      <h2>Sign Up / Login</h2>
-      <form onSubmit={handleSignUp}>
+    <div className="auth-container">
+      <form onSubmit={handleSignUp} className="auth-form">
         <div className="form-group">
-          <label>Email:</label>
+          <label style={{ marginLeft: 0 }}>Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -69,17 +69,19 @@ const SignUpLogin = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="form-input"
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="form-button">Sign Up</button>
       </form>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="auth-form">
         <div className="form-group">
           <label>Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="form-input"
           />
         </div>
         <div className="form-group">
@@ -88,12 +90,13 @@ const SignUpLogin = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="form-input"
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="form-button">Login</button>
       </form>
     </div>
   );
-};
+}  
 
 export default SignUpLogin;

@@ -124,6 +124,11 @@ async def login_for_access_token(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@app.get('/logout')
+async def logout():
+    return {"access_token": None, "token_type": "bearer"}
+
+
 @app.get("/users/me/", response_model=schemas.User)
 async def read_users_me(token: Annotated[str, Depends(auth.oauth2_scheme)], db: Session = Depends(get_db)):
     credentials_exception = HTTPException(

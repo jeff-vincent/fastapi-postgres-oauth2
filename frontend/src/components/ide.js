@@ -1,12 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import AceEditor from 'react-ace';
+import 'ace-builds/src-noconflict/mode-python';
+import 'ace-builds/src-noconflict/theme-solarized_light';
 
 const IDE = ({ onExecuteCommand }) => {
   const [fileContent, setFileContent] = useState('');
   const [outputFileContent, setOutputFileContent] = useState('');
+  const [highlightedContent, setHighlightedContent] = useState('');
 
-  const handleFileContentChange = (event) => {
-    setFileContent(event.target.value);
+  const handleFileContentChange = (value) => {
+    setFileContent(value);
+    setHighlightedContent(value);
   };
+
+  useEffect(() => {
+    // Apply syntax highlighting when fileContent changes
+    setHighlightedContent(fileContent);
+  }, [fileContent]);
+
+  // You can replace this with your own syntax highlighting logic
+  const highlightSyntax = (content) => {
+    // Here, we're just returning the content as-is
+    // Replace this with your own syntax highlighting logic
+    return content;
+  };
+
+  useEffect(() => {
+    // Apply syntax highlighting to the textarea
+    const highlightedText = highlightSyntax(fileContent);
+    setHighlightedContent(highlightedText);
+  }, [fileContent]);
 
   const handleRunCode = () => {
     const formData = new FormData();
@@ -41,15 +64,16 @@ const IDE = ({ onExecuteCommand }) => {
 
   return (
     <div className="ide-container">
-      <div className="ide-editor">
-        <textarea
-          rows="10"
-          placeholder="Enter file content"
-          value={fileContent}
-          onChange={handleFileContentChange}
-          className="ide-textarea"
-        />
-      </div>
+      <AceEditor
+        mode="python"
+        theme="solarized_light"
+        value={fileContent}
+        onChange={handleFileContentChange}
+        name="code-editor"
+        editorProps={{ $blockScrolling: true }}
+        width="100%"
+        height="300px"
+      />
       <div className="ide-response">
         {outputFileContent}
       </div>

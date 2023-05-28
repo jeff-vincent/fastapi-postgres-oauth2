@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import SignUpLogin from './sign-up-login'
 import './components.css';
 
 
@@ -38,19 +39,18 @@ const Profile = () => {
   }
 
   if (!user) {
-    return <div>User not found</div>;
+    return (
+      <div><h1>Log in to track your progress</h1>
+    <div><SignUpLogin/></div></div>)
   }
 
   return (
     <div className="dashboard">
       <h2 className="dashboard-title">Welcome, {user.email}!</h2>
       <div className="dashboard-info">
-        <p className="dashboard-info-item">
-          <span className="info-label">Email:</span> {user.email}
-        </p>
       </div>
       <div className="dashboard-pets">
-        <p className="pets-title">Pets:</p>
+        <p className="pets-title">Completed lessons:</p>
         <ul className="pets-list">
           {user.pets.map((pet) => (
             <li key={pet.id} className="pet-item">
@@ -61,6 +61,6 @@ const Profile = () => {
       </div>
     </div>
   );
-};
+}  
 
 export default Profile;
