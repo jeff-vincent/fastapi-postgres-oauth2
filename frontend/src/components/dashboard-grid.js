@@ -1,25 +1,29 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import VideoPlayer from './video';
-import Profile from './profile';
+import ProfileSmall from './profile-small';
 import Terminal from './terminal';
 import IDE from './ide';
-import './components.css'; // Assuming you have a CSS file for grid layout styling
+import './components.css';
 
 const Grid = () => {
+  const { lessonID } = useParams();
+  console.log(lessonID);
+
   return (
     <div className="grid-container">
-        <div className="">
-            <VideoPlayer />
-        </div>
-        <div className="">
-            <Profile />
-        </div>
-        <div className="">
-            <IDE />
-        </div>
-        <div className="">
-            < Terminal/>
-        </div>
+      <div className="">
+        <VideoPlayer lessonID={lessonID} />
+      </div>
+      <div className="">
+        <ProfileSmall lessonID={lessonID} />
+      </div>
+      <div className="">
+        <IDE lessonID={lessonID} />
+      </div>
+      <div className="">
+        <Terminal lessonID={lessonID} />
+      </div>
     </div>
   );
 };

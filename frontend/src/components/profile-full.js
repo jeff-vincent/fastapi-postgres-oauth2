@@ -3,7 +3,7 @@ import SignUpLogin from './sign-up-login'
 import './components.css';
 
 
-const Profile = () => {
+const ProfileFull = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -63,4 +63,4 @@ const Profile = () => {
   );
 }  
 
-export default Profile;
+export default ProfileFull;

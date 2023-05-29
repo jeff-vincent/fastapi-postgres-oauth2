@@ -3,7 +3,7 @@ import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 
-const IDE = ({ onExecuteCommand }) => {
+const IDE = ({ lessonID }) => {
   const [fileContent, setFileContent] = useState('');
   const [outputFileContent, setOutputFileContent] = useState('');
   const [highlightedContent, setHighlightedContent] = useState('');
@@ -12,6 +12,9 @@ const IDE = ({ onExecuteCommand }) => {
     setFileContent(value);
     setHighlightedContent(value);
   };
+
+  console.log('example code id');
+  console.log(lessonID);
 
   useEffect(() => {
     // Apply syntax highlighting when fileContent changes

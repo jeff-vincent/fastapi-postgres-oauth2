@@ -52,10 +52,12 @@ const SignUpLogin = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container" style={{ paddingRight: '2in'}}>
       <form onSubmit={handleSignUp} className="auth-form">
         <div className="form-group">
-          <label style={{ marginLeft: 0 }}>Email:</label>
+          <div>
+          <label>Email:</label>
+          </div>
           <input
             type="email"
             value={email}
@@ -64,7 +66,9 @@ const SignUpLogin = () => {
           />
         </div>
         <div className="form-group">
+          <div>
           <label>Password:</label>
+          </div>
           <input
             type="password"
             value={password}
@@ -76,7 +80,9 @@ const SignUpLogin = () => {
       </form>
       <form onSubmit={handleLogin} className="auth-form">
         <div className="form-group">
+          <div>
           <label>Email:</label>
+          </div>
           <input
             type="email"
             value={email}
@@ -85,7 +91,9 @@ const SignUpLogin = () => {
           />
         </div>
         <div className="form-group">
+          <div>
           <label>Password:</label>
+          </div>
           <input
             type="password"
             value={password}
