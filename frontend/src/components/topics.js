@@ -3,16 +3,18 @@ import { useParams } from 'react-router-dom';
 
 const Topics = () => {
   const { id } = useParams();
-  const [topics, setTopics] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [imageURL, setImageURL] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/topics`);
+        const response = await fetch(`http://localhost:8085/category`);
+
         const data = await response.json();
+
         console.log(data);
-        setTopics(data);
+        setCategories(data);
 
         // Convert base64 image data to URL
         if (data.image) {
@@ -28,25 +30,39 @@ const Topics = () => {
     fetchData();
   }, [id]);
 
-  if (!topics) {
+  if (!categories) {
     return <div>Loading...</div>;
   }
-
   return (
-    
     <div className="topics-grid">
-        <h1>Loading...</h1>
       {imageURL && <img src={imageURL} alt="Topic" />}
       <ul className="topics-list">
-          {topics.map((topic) => (
-            <li key={topic.id} className="topic-item">
-              {topic.title}
-            </li>
-          ))}
-        </ul>
-      
+        {categories.map((category) => (
+          <li key={category.id} className="topic-item">
+            {category.name}
+            {category.topics.length > 0 && (
+              <ul className="subtopics-list">
+                {category.topics.map((topic) => (
+                  <li key={topic.id} className="subtopic-item">
+                    {topic.name}
+                    {topic.lessons.length > 0 && (
+                      <ul className="lessons-list">
+                        {topic.lessons.map((lesson) => (
+                          <li key={lesson.id} className="lesson-item">
+                            <a href={`/learn/${lesson.id}`}>{lesson.name}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
-  );
-};
+  );  
+};  
 
 export default Topics;
